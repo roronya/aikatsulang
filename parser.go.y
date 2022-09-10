@@ -101,21 +101,31 @@ func main() {
 }
 
 func Eval(ops []Operation) {
+	opi := 0
 	t := [255]int{}
-	i := 0
+	tp := 0
 	r := 0
-	for _, op := range ops {
-		switch op {
+	for opi < len(ops) {
+		switch ops[opi] {
 			case PTR_INC:
-				i++
+				tp++
+				if tp > 255 {
+					panic("panic")
+				}
 			case PTR_DEC:
-				i--
+				tp--
+				if tp < 0 {
+					panic("panic")
+				}
 			case INC:
-				t[i]++
+				t[tp]++
 			case DEC:
-				t[i]--
+				t[tp]--
+				if t[tp] < 0 {
+					panic("panic")
+				}
 			case OUT:
-				fmt.Println(string(t[i]))
+				fmt.Print(string(t[tp]))
 			case IN:
 				var v string
 				fmt.Scan(&v)
@@ -123,16 +133,21 @@ func Eval(ops []Operation) {
 				if err != nil {
 					panic(err)
 				}
-				t[i] = vi
+				t[tp] = vi
 			case WHILE:
-				r = i
-				i++
-			case END:
-				if t[i] == 0 {
-					i++
+				if t[tp] == 0 {
+					for ops[opi] != END {
+						opi++
+					}
 				} else {
-					i = r
+					r = opi
+				}
+			case END:
+				if t[tp] != 0 {
+					opi = r
 				}
 		}
+		// fmt.Printf("opi:%#v, ops[opi]:%#v, tp:%#v, t[tp]:%#v\n", opi, ops[opi], tp, t[tp])
+		opi++
 	}
 }
