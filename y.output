@@ -1,0 +1,92 @@
+
+state 0
+	$accept: .program $end 
+	program: .    (1)
+
+	.  reduce 1 (src line 34)
+
+	program  goto 1
+
+state 1
+	$accept:  program.$end 
+	program:  program.operation 
+
+	$end  accept
+	'>'  shift 3
+	'<'  shift 4
+	'+'  shift 5
+	'-'  shift 6
+	'.'  shift 7
+	','  shift 8
+	'['  shift 9
+	']'  shift 10
+	.  error
+
+	operation  goto 2
+
+state 2
+	program:  program operation.    (2)
+
+	.  reduce 2 (src line 40)
+
+
+state 3
+	operation:  '>'.    (3)
+
+	.  reduce 3 (src line 46)
+
+
+state 4
+	operation:  '<'.    (4)
+
+	.  reduce 4 (src line 51)
+
+
+state 5
+	operation:  '+'.    (5)
+
+	.  reduce 5 (src line 55)
+
+
+state 6
+	operation:  '-'.    (6)
+
+	.  reduce 6 (src line 59)
+
+
+state 7
+	operation:  '.'.    (7)
+
+	.  reduce 7 (src line 63)
+
+
+state 8
+	operation:  ','.    (8)
+
+	.  reduce 8 (src line 67)
+
+
+state 9
+	operation:  '['.    (9)
+
+	.  reduce 9 (src line 71)
+
+
+state 10
+	operation:  ']'.    (10)
+
+	.  reduce 10 (src line 75)
+
+
+11 terminals, 3 nonterminals
+11 grammar rules, 11/16000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+52 working sets used
+memory: parser 1/240000
+0 extra closures
+8 shift entries, 1 exceptions
+2 goto entries
+0 entries saved by goto default
+Optimizer space used: output 10/240000
+10 table entries, 0 zero
+maximum spread: 11, maximum offset: 4

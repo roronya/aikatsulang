@@ -8,19 +8,79 @@ import (
 	"os"
 )
 
+type Operation string
+const (
+	PTR_INC = ">"
+	PTR_DEC = "<"
+	INC = "+"
+	DEC = "-"
+	OUT = "."
+	IN = ","
+	WHILE = "["
+	END = "]"
+)
+
 %}
 
 %union {
-
+	program []Operation
+	operation Operation
 }
 
-%%
+%type<program> program
+%type<operation> operation
 
+%%
+program
+	:
+	{
+		$$ = []Operation{}
+		yylex.(*Lexer).result = $$
+	}
+	| program operation
+	{
+		$1 = append($1, $2)
+		$$ = $1
+		yylex.(*Lexer).result = $$
+	}
+operation
+	: '>'
+	{
+		$$ = PTR_INC
+	}
+	| '<'
+	{
+		$$ = PTR_DEC
+	}
+	| '+'
+	{
+		$$ = INC
+	}
+	| '-'
+	{
+		$$ = DEC
+	}
+	| '.'
+	{
+		$$ = OUT
+	}
+	| ','
+	{
+		$$ = IN
+	}
+	| '['
+	{
+		$$ = WHILE
+	}
+	| ']'
+	{
+		$$ = END
+	}
 %%
 
 type Lexer struct {
 	scanner.Scanner
-	result interface{}
+	result []Operation
 }
 
 func (l *Lexer) Lex(lval *yySymType) int {
