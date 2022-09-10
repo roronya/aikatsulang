@@ -102,7 +102,7 @@ func main() {
 
 func Eval(ops []Operation) {
 	opi := 0
-	t := [255]int{}
+	t := [255]uint{}
 	tp := 0
 	r := 0
 	for opi < len(ops) {
@@ -121,19 +121,16 @@ func Eval(ops []Operation) {
 				t[tp]++
 			case DEC:
 				t[tp]--
-				if t[tp] < 0 {
-					panic("panic")
-				}
 			case OUT:
 				fmt.Print(string(t[tp]))
 			case IN:
 				var v string
 				fmt.Scan(&v)
-				vi, err := strconv.Atoi(v)
+				vi, err := strconv.Atoi(v) // 数字以外受け付けない
 				if err != nil {
 					panic(err)
 				}
-				t[tp] = vi
+				t[tp] = uint(vi)
 			case WHILE:
 				if t[tp] == 0 {
 					for ops[opi] != END {
