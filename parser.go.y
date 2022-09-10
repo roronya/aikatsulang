@@ -122,7 +122,7 @@ func Eval(ops []Operation) {
 			case DEC:
 				t[tp]--
 			case OUT:
-				fmt.Print(string(t[tp]))
+				fmt.Print(string(rune(t[tp])))
 			case IN:
 				var v string
 				fmt.Scan(&v)
