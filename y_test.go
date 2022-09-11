@@ -4,15 +4,15 @@ import (
 	"log"
 	"strings"
 	"testing"
+	"text/scanner"
 )
 
 func TestLexerSplit(t *testing.T) {
-	log.Fatalf("Hello")
 	l := new(Lexer)
-	l.Init(strings.NewReader("アイカツ！アイカツ！"))
-	l.Scan()
-	got := l.TokenText()
-	if got != "アイカツ！" {
-		log.Fatalf("expected アイカツ！, but got %s", got)
+	l.Init(strings.NewReader("アイカツ！"))
+	l.Mode = scanner.ScanChars
+	for v := string(l.Scan()); v != "！"; v = string(l.Scan()) {
+		log.Printf(v)
+		log.Printf("%#v", v == "！")
 	}
 }

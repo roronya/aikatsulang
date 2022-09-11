@@ -63,7 +63,33 @@ type Lexer struct {
 }
 
 func (l *Lexer) Lex(lval *yySymType) int {
-	return int(l.Scan())
+	b := strings.Builder{}
+	r := l.Scan()
+	if int(r) == -1 {
+		return -1
+	}
+	for ; r != '！' && r != '♡' && r != '？'; r = l.Scan() {
+		b.WriteRune(r)
+	}
+	switch b.String() {
+	case "くるくるきゃわわ":
+		return int('>')
+	case "オケオケオッケー":
+		return int('<')
+	case "アイカツ":
+		return int('+')
+	case "らぶゆ〜":
+		return int('-')
+	case "それアイカツか":
+		return int('[')
+	case "世界の中心はここね":
+		return int(']')
+	case "血を吸うわよ":
+		return int(',')
+	case "穏やかじゃない":
+		return int('.')
+	}
+	panic("syntax error")
 }
 
 func (l *Lexer) Error(e string) {
