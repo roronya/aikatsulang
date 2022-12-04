@@ -155,6 +155,7 @@ func Eval(ops []Operation) {
 				opi = r
 			}
 		}
+		// for debugging
 		// fmt.Printf("opi:%#v, ops[opi]:%#v, tp:%#v, t[tp]:%#v\n", opi, ops[opi], tp, t[tp])
 		opi++
 	}

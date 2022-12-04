@@ -95,21 +95,29 @@ func newLexer(r io.Reader) *Lexer {
 func (l *Lexer) Lex(lval *yySymType) int {
 	b := strings.Builder{}
 	r := l.Scan()
-  if int(r) == -1 {
-    return -1
-  }
+	if int(r) == -1 {
+		return -1
+	}
 	for ; r != '！' && r != '♡' && r != '？'; r = l.Scan() {
-	  b.WriteRune(r)
+		  b.WriteRune(r)
 	}
 	switch b.String() {
-	case "くるくるきゃわわ": return int('>')
-	case "オケオケオッケー": return int('<')
-	case "アイカツ": return int('+')
-	case "らぶゆ〜": return int('-')
-	case "それアイカツか": return int('[')
-	case "世界の中心はここね": return int(']')
-	case "血を吸うわよ": return int(',')
-	case "穏やかじゃない": return int('.')
+	case "くるくるきゃわわ":
+		return int('>')
+	case "オケオケオッケー":
+		return int('<')
+	case "アイカツ":
+		return int('+')
+	case "らぶゆ〜":
+		return int('-')
+	case "それアイカツか":
+		return int('[')
+	case "世界の中心はここね":
+		return int(']')
+	case "血を吸うわよ":
+		return int(',')
+	case "穏やかじゃない":
+		return int('.')
 	}
 	panic("syntax error")
 }
@@ -169,6 +177,7 @@ func Eval(ops []Operation) {
 					opi = r
 				}
 		}
+		// for debugging
 		// fmt.Printf("opi:%#v, ops[opi]:%#v, tp:%#v, t[tp]:%#v\n", opi, ops[opi], tp, t[tp])
 		opi++
 	}
