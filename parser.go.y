@@ -136,32 +136,34 @@ func main() {
 	r := strings.NewReader(in)
 	l := newLexer(r)
 	yyParse(l)
-	Eval(l.result)
+
+	// テストしやすさのために、テープに関連する情報をEvalの外で定義して引数として渡す
+	t := [255]uint{} // 長さ255のテープを想定する
+	tp := 0 // テープポインタ
+	rg := 0 // レジスタ [命令の位置を記録する
+	opi := 0 // オペレーションの位置を記録する
+	Eval(l.result, &t, &tp, &rg, &opi)
 }
 
-func Eval(ops []Operation) {
-	opi := 0
-	t := [255]uint{}
-	tp := 0
-	r := 0
-	for opi < len(ops) {
-		switch ops[opi] {
+func Eval(ops []Operation, t *[255]uint, tp *int, rg *int, opi *int) {
+	for *opi < len(ops) {
+		switch ops[*opi] {
 			case PTR_INC:
-				tp++
-				if tp > 255 {
-					panic("panic")
+				*tp++
+				if *tp > 255 {
+					panic("table pointer out of range")
 				}
 			case PTR_DEC:
-				tp--
-				if tp < 0 {
-					panic("panic")
+				*tp--
+				if *tp < 0 {
+					panic("table pointer out of range")
 				}
 			case INC:
-				t[tp]++
+				t[*tp]++
 			case DEC:
-				t[tp]--
+				t[*tp]--
 			case OUT:
-				fmt.Print(string(rune(t[tp])))
+				fmt.Print(string(rune(t[*tp])))
 			case IN:
 				var v string
 				fmt.Scan(&v)
@@ -169,22 +171,22 @@ func Eval(ops []Operation) {
 				if err != nil {
 					panic(err)
 				}
-				t[tp] = uint(vi)
+				t[*tp] = uint(vi)
 			case WHILE:
-				if t[tp] == 0 {
-					for ops[opi] != END {
-						opi++
+				if t[*tp] == 0 {
+					for ops[*opi] != END {
+						*opi++
 					}
 				} else {
-					r = opi
+					*rg = *opi
 				}
 			case END:
-				if t[tp] != 0 {
-					opi = r
+				if t[*tp] != 0 {
+					*opi = *rg
 				}
 		}
 		// for debugging
-		// fmt.Printf("opi:%#v, ops[opi]:%#v, tp:%#v, t[tp]:%#v\n", opi, ops[opi], tp, t[tp])
-		opi++
+		// fmt.Printf("opi:%#v, ops[*opi]:%#v, tp:%#v, t[*tp]:%#v\n", *opi, ops[*opi], *tp, t[*tp])
+		*opi++
 	}
 }
