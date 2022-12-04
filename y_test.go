@@ -8,7 +8,7 @@ import (
 )
 
 func TestLexerSplit(t *testing.T) {
-	l := new(Lexer)
+	l := newLexer()
 	l.Init(strings.NewReader("アイカツ！"))
 	l.Mode = scanner.ScanChars
 	for v := string(l.Scan()); v != "！"; v = string(l.Scan()) {

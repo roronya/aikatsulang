@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"io"
+	"log"
 )
 
 type Operation string
@@ -127,7 +128,12 @@ func (l *Lexer) Error(e string) {
 }
 
 func main() {
-	r := strings.NewReader(os.Args[1])
+	f, err := os.ReadFile(os.Args[1])
+	if err != nil {
+	log.Fatal(err)
+	}
+	in := string(f)
+	r := strings.NewReader(in)
 	l := newLexer(r)
 	yyParse(l)
 	Eval(l.result)

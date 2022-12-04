@@ -10,6 +10,7 @@ import __yyfmt__ "fmt"
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -29,7 +30,7 @@ const (
 	END     = "]"
 )
 
-//line parser.go.y:27
+//line parser.go.y:28
 type yySymType struct {
 	yys       int
 	program   []Operation
@@ -56,7 +57,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyInitialStackSize = 16
 
-//line parser.go.y:81
+//line parser.go.y:82
 
 type Lexer struct {
 	scanner.Scanner
@@ -105,7 +106,12 @@ func (l *Lexer) Error(e string) {
 }
 
 func main() {
-	r := strings.NewReader(os.Args[1])
+	f, err := os.ReadFile(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	in := string(f)
+	r := strings.NewReader(in)
 	l := newLexer(r)
 	yyParse(l)
 	Eval(l.result)
@@ -565,14 +571,14 @@ yydefault:
 
 	case 1:
 		yyDollar = yyS[yypt-0 : yypt+1]
-//line parser.go.y:38
+//line parser.go.y:39
 		{
 			yyVAL.program = []Operation{}
 			yylex.(*Lexer).result = yyVAL.program
 		}
 	case 2:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line parser.go.y:43
+//line parser.go.y:44
 		{
 			yyDollar[1].program = append(yyDollar[1].program, yyDollar[2].operation)
 			yyVAL.program = yyDollar[1].program
@@ -580,49 +586,49 @@ yydefault:
 		}
 	case 3:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:50
+//line parser.go.y:51
 		{
 			yyVAL.operation = PTR_INC
 		}
 	case 4:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:54
+//line parser.go.y:55
 		{
 			yyVAL.operation = PTR_DEC
 		}
 	case 5:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:58
+//line parser.go.y:59
 		{
 			yyVAL.operation = INC
 		}
 	case 6:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:62
+//line parser.go.y:63
 		{
 			yyVAL.operation = DEC
 		}
 	case 7:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:66
+//line parser.go.y:67
 		{
 			yyVAL.operation = OUT
 		}
 	case 8:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:70
+//line parser.go.y:71
 		{
 			yyVAL.operation = IN
 		}
 	case 9:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:74
+//line parser.go.y:75
 		{
 			yyVAL.operation = WHILE
 		}
 	case 10:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:78
+//line parser.go.y:79
 		{
 			yyVAL.operation = END
 		}
