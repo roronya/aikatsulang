@@ -7,6 +7,7 @@ import (
 	"strings"
 	"os"
 	"strconv"
+	"io"
 )
 
 type Operation string
@@ -84,6 +85,13 @@ type Lexer struct {
 	result []Operation
 }
 
+func newLexer(r io.Reader) *Lexer {
+	l := new(Lexer)
+	l.Init(r)
+	l.Mode = scanner.ScanChars
+	return l
+}
+
 func (l *Lexer) Lex(lval *yySymType) int {
 	b := strings.Builder{}
 	r := l.Scan()
@@ -111,9 +119,8 @@ func (l *Lexer) Error(e string) {
 }
 
 func main() {
-	l := new(Lexer)
-	l.Init(strings.NewReader(os.Args[1]))
-	l.Mode = scanner.ScanChars
+	r := strings.NewReader(os.Args[1])
+	l := newLexer(r)
 	yyParse(l)
 	Eval(l.result)
 }

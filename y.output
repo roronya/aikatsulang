@@ -3,7 +3,7 @@ state 0
 	$accept: .program $end 
 	program: .    (1)
 
-	.  reduce 1 (src line 35)
+	.  reduce 1 (src line 36)
 
 	program  goto 1
 
@@ -27,55 +27,55 @@ state 1
 state 2
 	program:  program operation.    (2)
 
-	.  reduce 2 (src line 41)
+	.  reduce 2 (src line 42)
 
 
 state 3
 	operation:  '>'.    (3)
 
-	.  reduce 3 (src line 47)
+	.  reduce 3 (src line 48)
 
 
 state 4
 	operation:  '<'.    (4)
 
-	.  reduce 4 (src line 52)
+	.  reduce 4 (src line 53)
 
 
 state 5
 	operation:  '+'.    (5)
 
-	.  reduce 5 (src line 56)
+	.  reduce 5 (src line 57)
 
 
 state 6
 	operation:  '-'.    (6)
 
-	.  reduce 6 (src line 60)
+	.  reduce 6 (src line 61)
 
 
 state 7
 	operation:  '.'.    (7)
 
-	.  reduce 7 (src line 64)
+	.  reduce 7 (src line 65)
 
 
 state 8
 	operation:  ','.    (8)
 
-	.  reduce 8 (src line 68)
+	.  reduce 8 (src line 69)
 
 
 state 9
 	operation:  '['.    (9)
 
-	.  reduce 9 (src line 72)
+	.  reduce 9 (src line 73)
 
 
 state 10
 	operation:  ']'.    (10)
 
-	.  reduce 10 (src line 76)
+	.  reduce 10 (src line 77)
 
 
 11 terminals, 3 nonterminals
